@@ -16,6 +16,7 @@ class Task_assignment extends Model
         'task_id',
         'assigned_at',
         'completed_at',
+        'status',
     ];
 
     protected function casts(): array

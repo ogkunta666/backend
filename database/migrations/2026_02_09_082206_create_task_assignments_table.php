@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('task_id')->constrained()->onDelete('cascade');
+            $table->string('status')->default('pending'); // pending, in_progress, completed
             $table->timestamp('assigned_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
