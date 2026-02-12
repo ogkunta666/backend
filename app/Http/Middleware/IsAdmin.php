@@ -18,14 +18,14 @@ class IsAdmin
         // Ellenőrizzük, hogy be van-e jelentkezve a felhasználó
         if (!auth()->check()) {
             return response()->json([
-                'message' => 'Nem vagy bejelentkezve. Kérem, jelentkezz be a hozzáféréshez.'
+                'message' => 'Unauthorized. Please login first.'
             ], 401);
         }
 
         // Ellenőrizzük, hogy admin-e a felhasználó
         if (!auth()->user()->is_admin) {
             return response()->json([
-                'message' => 'Tiltott. Admin jogosultság szükséges.'
+                'message' => 'Forbidden. Admin access required.'
             ], 403);
         }
 
