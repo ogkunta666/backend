@@ -17,16 +17,22 @@ class IsAdmin
     {
         // Ellenőrizzük, hogy be van-e jelentkezve a felhasználó
         if (!auth()->check()) {
-            return response()->json([
-                'message' => 'Unauthorized. Please login first.'
-            ], 401);
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Unauthorized. Please login first.'
+                ], 401);
+            }
+            return redirect()->route('login');
         }
 
         // Ellenőrizzük, hogy admin-e a felhasználó
         if (!auth()->user()->is_admin) {
-            return response()->json([
-                'message' => 'Forbidden. Admin access required.'
-            ], 403);
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Forbidden. Admin access required.'
+                ], 403);
+            }
+            abort(403, 'Forbidden. Admin access required.');
         }
 
         return $next($request);

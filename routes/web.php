@@ -13,8 +13,8 @@ Route::get('/login', [WebAuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [WebAuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
 
-// Admin webes felület elérése (védett admin middleware-rel)
-Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+// Admin webes felület elérése (védett web auth és admin middleware-rel)
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [AdminWebController::class, 'dashboard'])->name('dashboard');
     

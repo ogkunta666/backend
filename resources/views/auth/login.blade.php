@@ -1,134 +1,121 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin Login - Task Manager</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 { font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center; color: #2d3748; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #4a5568; }
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        .checkbox-group {
             display: flex;
             align-items: center;
-            justify-content: center;
-        }
-        .login-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-            max-width: 450px;
-            width: 100%;
-        }
-        .login-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
-        .login-header i {
-            font-size: 3rem;
             margin-bottom: 1rem;
         }
-        .login-body {
-            padding: 2rem;
+        .checkbox-group input {
+            margin-right: 0.5rem;
         }
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-        .btn-login {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: white;
+        button {
+            width: 100%;
             padding: 0.75rem;
-            font-weight: 500;
-        }
-        .btn-login:hover {
-            background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
+            background-color: #4299e1;
             color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
         }
-        .input-group-text {
-            background-color: #f8f9fa;
+        button:hover { background-color: #3182ce; }
+        .alert {
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            background-color: #fed7d7;
+            border: 1px solid #fc8181;
+            color: #742a2a;
         }
+        .info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f7fafc;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #718096;
+        }
+        .info strong { color: #2d3748; }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <div class="login-header">
-            <i class="bi bi-shield-lock"></i>
-            <h3>Admin Login</h3>
-            <p class="mb-0">Task Manager Admin Panel</p>
-        </div>
-        <div class="login-body">
-            @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle"></i>
-                    @foreach ($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
+    <div class="container">
+        <h1>Admin Login</h1>
 
-            <form method="POST" action="{{ route('login.post') }}">
-                @csrf
-                
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email Address</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                        <input type="email" 
-                               class="form-control @error('email') is-invalid @enderror" 
-                               id="email" 
-                               name="email" 
-                               value="{{ old('email') }}" 
-                               placeholder="admin@taskmanager.hu"
-                               required 
-                               autofocus>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                        <input type="password" 
-                               class="form-control @error('password') is-invalid @enderror" 
-                               id="password" 
-                               name="password" 
-                               placeholder="••••••••"
-                               required>
-                    </div>
-                </div>
-
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                    <label class="form-check-label" for="remember">
-                        Remember me
-                    </label>
-                </div>
-
-                <button type="submit" class="btn btn-login w-100">
-                    <i class="bi bi-box-arrow-in-right"></i> Login
-                </button>
-            </form>
-
-            <hr class="my-4">
-
-            <div class="text-center text-muted">
-                <small>
-                    <i class="bi bi-info-circle"></i> 
-                    Default credentials:<br>
-                    <strong>admin@taskmanager.hu</strong> / <strong>admin123</strong>
-                </small>
+        @if ($errors->any())
+            <div class="alert">
+                @foreach ($errors->all() as $error)
+                    {{ $error }}<br>
+                @endforeach
             </div>
+        @endif
+
+        <form method="POST" action="{{ route('login.post') }}">
+            @csrf
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember" style="margin-bottom: 0;">Remember me</label>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="info">
+            Default credentials:<br>
+            <strong>admin@taskmanager.hu</strong> / <strong>admin123</strong>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
